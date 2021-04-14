@@ -1,0 +1,165 @@
+variable number	equal 1
+variable ofreq	equal 40000
+variable efreq	equal 40000
+variable tfreq	equal 2200000
+
+variable equil	equal 11000000
+
+units lj
+
+dimension 3
+
+newton off
+
+boundary p p p
+
+atom_style hybrid charge bond ellipsoid
+atom_modify sort 0 1.0
+
+# Pair interactions require lists of neighbours to be calculated
+neighbor 1.0 bin
+neigh_modify every 1 delay 0 check yes
+
+read_data data.oxdna
+
+set atom * mass 3.1575
+
+group dna molecule 1
+group mem molecule 2
+
+# oxDNA bond interactions - FENE backbone
+bond_style oxdna2/fene
+bond_coeff * 2.0 0.25 0.7564
+
+# oxDNA pair interactions
+pair_style hybrid/overlay oxdna2/excv oxdna2/stk oxdna2/hbond oxdna2/xstk oxdna2/coaxstk oxdna2/dh
+pair_coeff * * oxdna2/excv    2.0 0.7 0.675 2.0 0.515 0.5 2.0 0.33 0.32
+pair_coeff 1 1 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 1 2 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 1 3 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 1 4 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 2 2 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 2 3 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 2 4 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 3 3 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 3 4 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 4 4 oxdna2/stk     seqav 0.1 6.0 0.4 0.9 0.32 0.6 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 2.0 0.65 2.0 0.65
+pair_coeff 1 1 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 1 2 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 1 3 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 1 4 oxdna2/hbond   seqav 1.0678 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 2 2 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 2 3 oxdna2/hbond   seqav 1.0678 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 2 4 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 3 3 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 3 4 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 4 4 oxdna2/hbond   seqav 0 8.0 0.4 0.75 0.34 0.7 1.5 0 0.7 1.5 0 0.7 1.5 0 0.7 0.46 3.141592653589793 0.7 4.0 1.5707963267948966 0.45 4.0 1.5707963267948966 0.45
+pair_coeff 1 1 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 1 2 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 1 3 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 1 4 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 2 2 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 2 3 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 2 4 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 3 3 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 3 4 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 4 4 oxdna2/xstk    47.5 0.575 0.675 0.495 0.655 2.25 0.791592653589793 0.58 1.7 1.0 0.68 1.7 1.0 0.68 1.5 0 0.65 1.7 0.875 0.68 1.7 0.875 0.68
+pair_coeff 1 1 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 1 2 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 1 3 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 1 4 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 2 2 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 2 3 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 2 4 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 3 3 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 3 4 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 4 4 oxdna2/coaxstk 58.5 0.4 0.6 0.22 0.58 2.0 2.891592653589793 0.65 1.3 0 0.8 0.9 0 0.95 0.9 0 0.95 40.0 3.116592653589793
+pair_coeff 1 1 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 1 2 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 1 3 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 1 4 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 1 5 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 2 2 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 2 3 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 2 4 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 2 5 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 3 3 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 3 4 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 3 5 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 4 4 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 4 5 oxdna2/dh      0.1 1.0 0.815
+pair_coeff 5 5 oxdna2/dh      0.1 1.0 0.815
+
+neigh_modify exclude group mem mem
+
+# NVE ensemble
+fix 1 dna nve/dotc/langevin 0.1 0.1 0.03 1 angmom 10
+
+#Dump etc
+compute erot all erotate/asphere
+compute ekin all ke
+compute epot all pe
+variable erot equal c_erot
+variable ekin equal c_ekin
+variable epot equal c_epot
+variable etot equal c_erot+c_ekin+c_epot
+fix 5 all print ${efreq} "$(step)  ekin = ${ekin} |  erot = ${erot} | epot = ${epot} | etot = ${etot}" screen yes
+
+timestep 3e-3
+
+group TL id 30
+variable zi equal z[30]
+variable zf equal z[11]
+fix tet TL spring tether 10.0 0 0 0.4 0.0
+run ${equil}
+
+unfix tet
+
+dump chain dna custom ${ofreq} dna.lammpstrj id type xu yu zu
+dump_modify chain sort id
+dump_modify chain format line "%d %d %13.6le %13.6le %13.6le"
+
+compute quat dna property/atom quatw quati quatj quatk
+dump quat dna custom ${ofreq} quat.dat id c_quat[1] c_quat[2] c_quat[3] c_quat[4]
+dump_modify quat sort id
+dump_modify quat format line "%d  %13.6le  %13.6le  %13.6le  %13.6le"
+
+variable a0 equal -0.35526191
+variable a1 equal -0.26492661
+variable a2 equal -0.06598246000000001
+variable a3 equal -0.00544313
+variable a4 equal -0.148832187
+variable a5 equal -5.535477e-07
+variable a6 equal 0.00569826107
+variable a7 equal -0.35528773
+variable a8 equal 0.26494952
+variable a9 equal -0.06598893
+variable a10 equal 0.00544372
+variable b0 equal 0.35526111
+variable b1 equal 0.26492599
+variable b2 equal 0.06598229999999999
+variable b3 equal 0.00544312
+variable b4 equal 0.148831824
+variable b5 equal 8.909949549999999e-08
+variable b6 equal -0.00569692104
+variable b7 equal 0.35529024
+variable b8 equal -0.26495249
+variable b9 equal 0.06599004
+variable b10 equal -0.00544385
+
+variable tau equal 401000
+variable omega equal 6.28318530718
+
+variable fa atom ((((z>-5)&&(z<-1.065))*(v_a0+v_a1*z+v_a2*z^2+v_a3*z^3))+(((z>=-1.065)&&(z<=1.065))*(v_a4+v_a5*z+v_a6*z^2))+(((z>1.065)&&(z<5))*(v_a7+v_a8*z+v_a9*z^2+v_a10*z^3)))
+
+variable fb atom ((((z>-5)&&(z<-1.065))*(v_b0+v_b1*z+v_b2*z^2+v_b3*z^3))+(((z>=-1.065)&&(z<=1.065))*(v_b4+v_b5*z+v_b6*z^2))+(((z>1.065)&&(z<5))*(v_b7+v_b8*z+v_b9*z^2+v_b10*z^3)))
+
+variable fie atom ((sin(v_omega/v_tau*elaplong)>=0)*v_fa+(sin(v_omega/v_tau*elaplong)<0)*v_fb)
+fix qe0 dna efield 0.0 0.0 v_fie
+
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
+run 900000000 every ${tfreq} "if '${zf} > 0.4 || ${zi} < -1.6' then quit"
